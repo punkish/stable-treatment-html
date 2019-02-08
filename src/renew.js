@@ -2,10 +2,9 @@
 
 const fs = require('fs');
 const path = require('path');
+const Config = require('../config');
 const Debug = require('debug')('renew');
 const { performance } = require('perf_hooks');
-
-const xmldir = path.join(__dirname, '..');
 
 // parse xml
 Debug('parsing and loading treatments');
@@ -18,6 +17,7 @@ let j = xmlsArr.length;
 
 let treatments = [];
 for (; i < j; i++) {
+
 
     const xml = fs.readFileSync(`${xmldir}/data/${xmlsArr[i]}`, 'utf8');
     const treatment_id = path.basename(xmlsArr[i], '.xml');

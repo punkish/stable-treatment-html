@@ -1,55 +1,64 @@
 module.exports = {
     treatments: [
-        //{"Plazi Field": "treatmentId", "Zenodo Field": "", "type": "string", "tag": "UUID","definition": "The unique ID of the treatment"},
-        {"Plazi Field": "treatmentTitle", "Zenodo Field": "title", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').text() + ' ' + $('subSubSection[type=nomenclature] taxonomicName').attr('authority')","definition": "Title of the treatment. If it is a new species, a taxonomicNameLabel will be present, and is concatenated to the taxonomicName, which is concatenated to the authority attribute"},
-        {"Plazi Field": "pages", "Zenodo Field": "pages", "type": "string", "tag": "$('treatment').attr('pageNumber') + '–' + $('treatment').attr('lastPageNumber')","definition": "'from' and 'to' pages where the treatment occurs in the article"},
-        {"Plazi Field": "doi", "Zenodo Field": "relatedidentifiers[isPartOf]", "type": "string", "tag": "$('mods\\\\:identifier[type=DOI]').text()","definition": "DOI of journal article"},
-        {"Plazi Field": "zenodoDep", "Zenodo Field": "relatedidentifiers[isPartOf]", "type": "string", "tag": "$('mods\\\\:identifier[type=Zenodo-Dep]').text()","definition": "Zenodo record of journal article"},
-        {"Plazi Field": "treatmentAuthors", "Zenodo Field": "creators", "type": "array of strings", "tag": "$('mods\\\\:namePart')","definition": "Authors of article (used if no treatment authority is found)"},
-        {"Plazi Field": "publicationDate", "Zenodo Field": "publicationDate", "type": "date", "tag": "$('mods\\\\:detail[type=pubDate] mods\\\\:number').text()","definition": "The date of the publication of the article. If a complete date is not available (for example, if only the year is available), then the last day of the year is used."},
-        {"Plazi Field": "journalTitle", "Zenodo Field": "journal_title", "type": "string", "tag": "$('mods\\\\:titleInfo').text()","definition": "Title of the journal"},
-        {"Plazi Field": "journalYear", "Zenodo Field": "journal_year", "type": "string", "tag": "$('mods\\\\:part mods\\\\:date').text()","definition": "Year of the journal"},
-        {"Plazi Field": "journalVolume", "Zenodo Field": "journal_volume", "type": "string", "tag": "$('mods\\\\:relatedItem[type=host] mods\\\\:part mods\\\\:detail[type=volume] mods\\\\:number').text()","definition": "Volume of the journal"},
-        {"Plazi Field": "journalIssue", "Zenodo Field": "journal_issue", "type": "string", "tag": "$('mods\\\\:detail[type=issue]').text()","definition": "Issue of the journal"},
-        {"Plazi Field": "authorityName", "Zenodo Field": "creators: this should be subject: scientificName authority: dwc http://rs.tdwg.org/dwc/terms/scientificNameAuthorship", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').attr('authorityName')","definition": "The name of the author(s) of the taxon (not necessarily the same as the authors of the journal article, but ommited if same as article authors)"},
-        {"Plazi Field": "authorityYear", "Zenodo Field": "-", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').attr('authorityYear')","definition": "The year when the taxon name has been published"},
-        {"Plazi Field": "kingdom", "Zenodo Field": "keywords AND also subject  ", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').attr('kingdom')","definition": "Higher category of the taxonomicName"},
-        {"Plazi Field": "phylum", "Zenodo Field": "keywords AND also subject", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').attr('phylum')","definition": "Higher category of the taxonomicName"},
-        {"Plazi Field": "order", "Zenodo Field": "keywords AND also subject", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').attr('order')","definition": "Higher category of the taxonomicName"},
-        {"Plazi Field": "family", "Zenodo Field": "keywords AND also subject", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').attr('family')","definition": "Higher category of the taxonomicName"},
-        {"Plazi Field": "genus", "Zenodo Field": "keywords AND also subject", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').attr('genus')","definition": "Higher category of the taxonomicName"},
-        {"Plazi Field": "species", "Zenodo Field": "keywords AND also subject", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').attr('species')","definition": "The specific epithet of a Latin Binomen"},
-        {"Plazi Field": "status", "Zenodo Field": "keywords", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').attr('status')","definition": "Descriptor for the taxonomic status of the taxon, such as new species, new genus, new combination, etc."},
-        {"Plazi Field": "rank", "Zenodo Field": "keywords", "type": "string", "tag": "$('subSubSection[type=nomenclature] taxonomicName').attr('rank')","definition": "The taxonomic rank of the taxon, e.g. species, family,"}
+        {"plazi": "treatmentId", "zenodo": "", "type": "string.guid()", "element": "$('document').attr('docId')","definition": "The unique ID of the treatment"},
+        {"plazi": "treatmentTitle", "zenodo": "title", "type": "string", "element": "$('subSubSection[type=nomenclature] taxonomicName').text() + ' ' + $('subSubSection[type=nomenclature] taxonomicName').attr('authority')","definition": "Title of the treatment. If it is a new species, a taxonomicNameLabel will be present, and is concatenated to the taxonomicName, which is concatenated to the authority attribute"},
+        {"plazi": "pages", "zenodo": "pages", "type": "int + '–' + int", "element": "$('treatment').attr('pageNumber') + '–' + $('treatment').attr('lastPageNumber')","definition": "'from' and 'to' pages where the treatment occurs in the article"},
+        {"plazi": "doi", "zenodo": "relatedidentifiers[isPartOf]", "type": "string", "element": "$('mods\\\\:identifier[type=DOI]').text()","definition": "DOI of journal article"},
+        {"plazi": "zenodoDep", "zenodo": "relatedidentifiers[isPartOf]", "type": "string", "element": "$('mods\\\\:identifier[type=Zenodo-Dep]').text()","definition": "Zenodo record of journal article"},
+        {"plazi": "publicationDate", "zenodo": "publicationDate", "type": "date", "element": "$('mods\\\\:detail[type=pubDate] mods\\\\:number').text()","definition": "The date of the publication of the article. If a complete date is not available (for example, if only the year is available), then the last day of the year is used."},
+        {"plazi": "journalTitle", "zenodo": "journal_title", "type": "string", "element": "$('mods\\\\:titleInfo').text()","definition": "Title of the journal"},
+        {"plazi": "journalYear", "zenodo": "journal_year", "type": "string", "element": "$('mods\\\\:part mods\\\\:date').text()","definition": "Year of the journal"},
+        {"plazi": "journalVolume", "zenodo": "journal_volume", "type": "string", "element": "$('mods\\\\:relatedItem[type=host] mods\\\\:part mods\\\\:detail[type=volume] mods\\\\:number').text()","definition": "Volume of the journal"},
+        {"plazi": "journalIssue", "zenodo": "journal_issue", "type": "string", "element": "$('mods\\\\:detail[type=issue]').text()","definition": "Issue of the journal"},
+        {"plazi": "authorityName", "zenodo": "creators: this should be subject: scientificName authority: dwc http://rs.tdwg.org/dwc/terms/scientificNameAuthorship", "type": "string", "element": "$('subSubSection[type=nomenclature] taxonomicName').attr('authorityName')","definition": "The name of the author(s) of the taxon (not necessarily the same as the authors of the journal article, but ommited if same as article authors)"},
+        {"plazi": "authorityYear", "zenodo": "-", "type": "year", "element": "$('subSubSection[type=nomenclature] taxonomicName').attr('authorityYear')","definition": "The year when the taxon name has been published"},
+        {"plazi": "kingdom", "zenodo": "subjects", "type": "string", "element": "$('subSubSection[type=nomenclature] taxonomicName').attr('kingdom')","definition": "Higher category of the taxonomicName"},
+        {"plazi": "phylum", "zenodo": "subjects", "type": "string", "element": "$('subSubSection[type=nomenclature] taxonomicName').attr('phylum')","definition": "Higher category of the taxonomicName"},
+        {"plazi": "order", "zenodo": "subjects", "type": "string", "element": "$('subSubSection[type=nomenclature] taxonomicName').attr('order')","definition": "Higher category of the taxonomicName"},
+        {"plazi": "family", "zenodo": "subjects", "type": "string", "element": "$('subSubSection[type=nomenclature] taxonomicName').attr('family')","definition": "Higher category of the taxonomicName"},
+        {"plazi": "genus", "zenodo": "subjects", "type": "string", "element": "$('subSubSection[type=nomenclature] taxonomicName').attr('genus')","definition": "Higher category of the taxonomicName"},
+        {"plazi": "species", "zenodo": "subjects", "type": "string", "element": "$('subSubSection[type=nomenclature] taxonomicName').attr('species')","definition": "The specific epithet of a Latin Binomen"},
+        {"plazi": "status", "zenodo": "subjects", "type": "string", "element": "$('subSubSection[type=nomenclature] taxonomicName').attr('status')","definition": "Descriptor for the taxonomic status proposed by a given treatment (can be: new species, or new combination, or new combination and new synonym)"},
+        {"plazi": "rank", "zenodo": "subjects", "type": "string", "element": "$('subSubSection[type=nomenclature] taxonomicName').attr('rank')","definition": "The taxonomic rank of the taxon, e.g. species, family,"}
+    ],
+    vernacularNames: [
+        {"plazi": "vernacularName", "zenodo": "", "type": "array of strings", "element": "@.each().text()","definition": ""}
+    ],
+    treatmentAuthors: [
+        {"plazi": "treatmentAuthor", "zenodo": "creators", "type": "array of strings", "element": "$('mods\\\\:namePart')","definition": "Authors of article (used if no treatment authority is found)"}
     ],
     materialCitations: [
-        {"Plazi Field": "collectionCode", "Zenodo Field": "subjects", "type": "string", "tag": "$('materialsCitation').attr('collectionCode')","definition": "The collection code for a natural history collection"},
-        {"Plazi Field": "specimenCountFemale", "Zenodo Field": "-", "type": "string", "tag": "$('materialsCitation').attr('specimenCount-female')","definition": "The number of female specimens listed"},
-        {"Plazi Field": "specimenCountMale", "Zenodo Field": "-", "type": "string", "tag": "$('materialsCitation').attr('specimenCount-male')","definition": "The number of male specimens listed"},
-        {"Plazi Field": "specimenCount", "Zenodo Field": "-", "type": "string", "tag": "$('materialsCitation').attr('specimenCount')","definition": "The number of specimens listed"},
-        {"Plazi Field": "specimenCode", "Zenodo Field": "subjects", "type": "string", "tag": "$('materialsCitation').attr('specimenCode')","definition": "The code for specimen"},
-        {"Plazi Field": "typeStatus", "Zenodo Field": "subjects", "type": "string", "tag": "$('materialsCitation').attr('typeStatus')","definition": "The nomenclatural status of the specimen, e.g. holotype, paratype"},
-        {"Plazi Field": "collectingCountry", "Zenodo Field": "geo_place", "type": "string", "tag": "$('materialsCitation').attr('collectingCountry')","definition": "Country where the specimen has been collected"},
-        {"Plazi Field": "collectingRegion", "Zenodo Field": "geo_place", "type": "string", "tag": "$('materialsCitation').attr('collectingRegion')","definition": "The geographic region where the specimen as been collected"},
-        {"Plazi Field": "collectingMunicipality", "Zenodo Field": "geo_place", "type": "string", "tag": "$('materialsCitation').attr('collectingMunicipality')","definition": "A lower administrative region"},
-        {"Plazi Field": "collectingCounty", "Zenodo Field": "geo_place", "type": "string", "tag": "$('materialsCitation').attr('collectingCounty')","definition": "A less lower administrative region"},
-        {"Plazi Field": "location", "Zenodo Field": "geo_place", "type": "string", "tag": "$('materialsCitation').attr('location')","definition": "The collecting location"},
-        {"Plazi Field": "locationDeviation", "Zenodo Field": "geo_place", "type": "string", "tag": "$('materialsCitation').attr('locationDeviation')","definition": "Distance to the nearest location, e.g. 23km NW from..."},
-        {"Plazi Field": "determinerName", "Zenodo Field": "-", "type": "string", "tag": "$('materialsCitation').attr('determinerName')","definition": "Person or agent who identified the specimen"},
-        {"Plazi Field": "collectorName", "Zenodo Field": "contributor=collector", "type": "string", "tag": "$('materialsCitation').attr('collectorName')","definition": "Person who collected the specimen"},
-        {"Plazi Field": "collectingDate", "Zenodo Field": "date[type=collected] + range parsing", "type": "string", "tag": "$('materialsCitation').attr('collectingDate')","definition": "The data when the specimen has been collected"},
-        {"Plazi Field": "collectedFrom", "Zenodo Field": "-", "type": "string", "tag": "$('materialsCitation').attr('collectedFrom')","definition": "The substrate where the specimen has been collected, e.g. leaf, flower"},
-        {"Plazi Field": "collectingMethod", "Zenodo Field": "description[method]", "type": "string", "tag": "$('materialsCitation').attr('collectingMethod')","definition": "The method used to collect the specimen"},
-        {"Plazi Field": "latitude", "Zenodo Field": "geo_lat", "type": "real", "tag": "$('materialsCitation').attr('latitude')","definition": "Geographic coordinates where the specimen has been collected"},
-        {"Plazi Field": "longitude", "Zenodo Field": "geo_lon", "type": "real", "tag": "$('materialsCitation').attr('longitude')","definition": "Geographic coordinates where the specimen has been collected"},
-        {"Plazi Field": "elevation", "Zenodo Field": "-", "type": "string", "tag": "$('materialsCitation').attr('elevation')","definition": "The elevation where the specimen has been collected"},
-        {"Plazi Field": "httpUri", "Zenodo Field": "relatedIdentifiers[hasPart]", "type": "string", "tag": "$('materialsCitation').attr('httpUri')","definition": "The persistent identifier of the specimen"}
+        {"plazi": "collectionCode", "zenodo": "subjects", "type": "string", "element": "$('materialsCitation').attr('collectionCode')","definition": "The collection code for a natural history collection"},
+        {"plazi": "specimenCountFemale", "zenodo": "-", "type": "string", "element": "$('materialsCitation').attr('specimenCount-female')","definition": "The number of female specimens listed"},
+        {"plazi": "specimenCountMale", "zenodo": "-", "type": "string", "element": "$('materialsCitation').attr('specimenCount-male')","definition": "The number of male specimens listed"},
+        {"plazi": "specimenCount", "zenodo": "-", "type": "string", "element": "$('materialsCitation').attr('specimenCount')","definition": "The number of specimens listed"},
+        {"plazi": "specimenCode", "zenodo": "subjects", "type": "string", "element": "$('materialsCitation').attr('specimenCode')","definition": "The code for specimen"},
+        {"plazi": "typeStatus", "zenodo": "subjects", "type": "string", "element": "$('materialsCitation').attr('typeStatus')","definition": "The nomenclatural status of the specimen, e.g. holotype, paratype"},
+        {"plazi": "collectingCountry", "zenodo": "geo_place", "type": "string", "element": "$('materialsCitation').attr('collectingCountry')","definition": "Country where the specimen has been collected"},
+        {"plazi": "collectingRegion", "zenodo": "geo_place", "type": "string", "element": "$('materialsCitation').attr('collectingRegion')","definition": "The geographic region where the specimen as been collected"},
+        {"plazi": "collectingMunicipality", "zenodo": "geo_place", "type": "string", "element": "$('materialsCitation').attr('collectingMunicipality')","definition": "A lower administrative region"},
+        {"plazi": "collectingCounty", "zenodo": "geo_place", "type": "string", "element": "$('materialsCitation').attr('collectingCounty')","definition": "A less lower administrative region"},
+        {"plazi": "location", "zenodo": "geo_place", "type": "string", "element": "$('materialsCitation').attr('location')","definition": "The collecting location"},
+        {"plazi": "locationDeviation", "zenodo": "geo_place", "type": "string", "element": "$('materialsCitation').attr('locationDeviation')","definition": "Distance to the nearest location, e.g. 23km NW from..."},
+        {"plazi": "determinerName", "zenodo": "-", "type": "string", "element": "$('materialsCitation').attr('determinerName')","definition": "Person or agent who identified the specimen"},
+        {"plazi": "collectorName", "zenodo": "contributor=collector", "type": "string", "element": "$('materialsCitation').attr('collectorName')","definition": "Person who collected the specimen"},
+        {"plazi": "collectingDate", "zenodo": "date[type=collected] + range parsing", "type": "string", "element": "$('materialsCitation').attr('collectingDate')","definition": "The data when the specimen has been collected"},
+        {"plazi": "collectedFrom", "zenodo": "-", "type": "string", "element": "$('materialsCitation').attr('collectedFrom')","definition": "The substrate where the specimen has been collected, e.g. leaf, flower"},
+        {"plazi": "collectingMethod", "zenodo": "description[method]", "type": "string", "element": "$('materialsCitation').attr('collectingMethod')","definition": "The method used to collect the specimen"},
+        {"plazi": "latitude", "zenodo": "geo_lat", "type": "latitude", "element": "$('materialsCitation').attr('latitude')","definition": "Geographic coordinates where the specimen has been collected"},
+        {"plazi": "longitude", "zenodo": "geo_lon", "type": "longitude", "element": "$('materialsCitation').attr('longitude')","definition": "Geographic coordinates where the specimen has been collected"},
+        {"plazi": "elevation", "zenodo": "-", "type": "real", "element": "$('materialsCitation').attr('elevation')","definition": "The elevation where the specimen has been collected"},
+        {"plazi": "httpUri", "zenodo": "relatedIdentifiers[hasPart]", "type": "uri", "element": "$('materialsCitation').attr('httpUri')","definition": "The persistent identifier of the specimen"}    
     ],
     treatmentCitations: [
-        {"Plazi Field": "treatmentCitation", "Zenodo Field": "relatedIdentifiers[cites]", "type": "", "tag": "$('treatmentCitation').text()","definition": "The taxonomic name and the author of the treatments cited by this treatment"},
-        {"Plazi Field": "refString", "Zenodo Field": "references", "type": "", "tag": "$('treatmentCitation bibRefCitation').attr('refString')","definition": "The bibliographic reference string of the treatments cited by this treatment"}
+        {"plazi": "treatmentCitation", "zenodo": "subjects; AND if there is a DOI for the treatmentCitation, relatedIdentifiers[cites];", "type": "string", "element": "$('subSubSection[type=reference_group] treatmentCitationGroup taxonomicName').text() + ' ' + $('subSubSection[type=reference_Group] treatmentCitationGroup taxonomicName').attr('authority') + ' sec. ' + $('subSubSection[type=reference_Group] treatmentCitationGroup bibRefCitation').text()","definition": "The taxonomic name and the author of the species, plus the author of the treatment being cited."},
+        {"plazi": "refString", "zenodo": "references", "type": "string", "element": "$('subSubSection[type=referenceGroup] treatmentCitationGroup treatmentCitation bibRefCitation').attr('refString')","definition": "The bibliographic reference string of the treatments cited by this treatment"}
     ],
     figureCitations: [
-        {"Plazi Field": "figureCitation", "Zenodo Field": "relatedIdentifiers[cites]", "type": "", "tag": "$('figureCitation').attr('httpUri')","definition": "The figures cited by this treatment"}
+        {"plazi": "captionText", "zenodo": "relatedIdentifiers[cites]", "type": "uri", "element": "","definition": "The figures cited by this treatment"},
+        {"plazi": "httpUri", "zenodo": "relatedIdentifiers[cites]", "type": "uri", "element": "","definition": "The figures cited by this treatment"}
+    ],
+    bibRefCitations: [
+        {"plazi": "refString", "zenodo": "relatedIdentifiers[cites]", "type": "uri", "element": "","definition": "The figures cited by this treatment"}
     ]
 };
